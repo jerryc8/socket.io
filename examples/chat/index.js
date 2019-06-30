@@ -47,8 +47,23 @@ io.on('connection', (socket) => {
     });
   });
 
+  const MIN_TYPED_CHARS_BEFORE_SUGGESTIONS = 3;
+
   // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', () => {
+  socket.on('typing', (text) => {
+    if (text && text.length >= MIN_TYPED_CHARS_BEFORE_SUGGESTIONS) {
+      socket.emit('suggestions', {
+        prefix: text,
+        suggestions: [
+          {id: "suggestion 0",
+           text: "dhgudgbn mci kyfz nekxh cor kt mpit"},
+          {id: "suggestion 1",
+           text: "onsnforic ws wbwbr zja ibsbmktjsrvwehf h"},
+          {id: "suggestion 2",
+           text: "y vik cbp vpvzl o h iaxl zrx"},
+        ]
+      });
+    }
     socket.broadcast.emit('typing', {
       username: socket.username
     });
